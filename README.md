@@ -1,5 +1,5 @@
 # spring-class
-[![Guide Documents](https://img.shields.io/badge/wiki-documentation-forestgreen)](https://github.com/jihwooon/core-java/wiki)
+[![Guide Documents](https://img.shields.io/badge/wiki-documentation-forestgreen)](https://github.com/jihwooon/spring-class/wiki)
 [![Version](https://img.shields.io/badge/version-2023.01.27-red.svg)](./CHANGELOG)
 
 
