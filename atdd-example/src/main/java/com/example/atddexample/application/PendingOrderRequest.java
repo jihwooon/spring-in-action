@@ -7,7 +7,12 @@ public class PendingOrderRequest {
     private long productId;
     private int quantity;
 
-    public static PendingOrderRequest of(final long productId, final int quantity) {
-        throw  new UnsupportedOperationException("PendingOrderRequest not Implemented yet !!");
+    public PendingOrderRequest(final long productId, final int quantity) {
+        this.productId = productId;
+        this.quantity = quantity;
+    }
+
+    public static PendingOrderRequest of(long productId, int quantity) {
+        return new PendingOrderRequest(productId, quantity);
     }
 }
