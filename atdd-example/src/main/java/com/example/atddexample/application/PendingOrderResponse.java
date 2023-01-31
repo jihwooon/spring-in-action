@@ -4,5 +4,12 @@ import lombok.Getter;
 
 @Getter
 public class PendingOrderResponse {
-    private Long id;
+    private long id;
+    private long productId;
+    private int quantity;
+
+    public PendingOrderResponse(final long productId, final int quantity) {
+        this.productId = productId;
+        this.quantity = quantity;
+    }
 }
