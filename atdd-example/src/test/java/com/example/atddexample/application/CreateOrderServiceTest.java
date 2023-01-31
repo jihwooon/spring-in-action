@@ -1,7 +1,10 @@
 package com.example.atddexample.application;
 
 import com.example.atddexample.domain.PendingOrder;
+import com.example.atddexample.domain.PendingOrderRepository;
 import org.junit.jupiter.api.Test;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
@@ -20,9 +23,13 @@ public class CreateOrderServiceTest {
     }
 
     private static class CreateOrderServiceImp implements CreateOrderService {
+        private PendingOrderRepository pendingOrderRepository = new PendingOrderRepositoryMemoryImpl();
+
         @Override
         public PendingOrder createPendingOrder(final PendingOrderRequest request) {
-            throw new UnsupportedOperationException("CreateOrderServiceImp#createPendingOrder not implemented yet !!");
+            PendingOrder pendingOrder = new PendingOrder(request.getProductId(), request.getQuantity());
+            return pendingOrderRepository.save(pendingOrder);
         }
     }
+
 }
