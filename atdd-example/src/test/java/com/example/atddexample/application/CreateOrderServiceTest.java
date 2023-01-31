@@ -7,7 +7,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 public class CreateOrderServiceTest {
 
-    private CreateOrderService createOrderService;
+    private CreateOrderService createOrderService = new CreateOrderServiceImp();
 
     @Test
     void createPendingOrder() {
@@ -19,4 +19,10 @@ public class CreateOrderServiceTest {
         assertThat(pendingOrder.getId()).isPositive();
     }
 
+    private static class CreateOrderServiceImp implements CreateOrderService {
+        @Override
+        public PendingOrder createPendingOrder(final PendingOrderRequest request) {
+            throw new UnsupportedOperationException("CreateOrderServiceImp#createPendingOrder not implemented yet !!");
+        }
+    }
 }
