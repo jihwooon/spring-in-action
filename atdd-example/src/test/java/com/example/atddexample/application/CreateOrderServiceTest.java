@@ -2,15 +2,14 @@ package com.example.atddexample.application;
 
 import com.example.atddexample.domain.PendingOrder;
 import com.example.atddexample.domain.PendingOrderRepository;
+import com.example.atddexample.infra.PendingOrderRepositoryMemoryImpl;
 import org.junit.jupiter.api.Test;
-
-import java.util.concurrent.atomic.AtomicLong;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 public class CreateOrderServiceTest {
-
-    private CreateOrderService createOrderService = new CreateOrderServiceImp();
+    private PendingOrderRepository pendingOrderRepository = new PendingOrderRepositoryMemoryImpl();
+    private CreateOrderService createOrderService = new CreateOrderServiceImp(pendingOrderRepository);
 
     @Test
     void createPendingOrder() {
@@ -22,27 +21,4 @@ public class CreateOrderServiceTest {
         assertThat(pendingOrder.getId()).isPositive();
     }
 
-    private static class CreateOrderServiceImp implements CreateOrderService {
-        private PendingOrderRepository pendingOrderRepository = new PendingOrderRepositoryMemoryImpl();
-
-        @Override
-        public PendingOrder createPendingOrder(final PendingOrderRequest request) {
-            PendingOrder pendingOrder = new PendingOrder(request.getProductId(), request.getQuantity());
-            return pendingOrderRepository.save(pendingOrder);
-        }
-    }
-
-    private static class PendingOrderRepositoryMemoryImpl implements PendingOrderRepository {
-        private final AtomicLong atomicLong = new AtomicLong(1);
-
-        @Override
-        public PendingOrder save(final PendingOrder pendingOrder) {
-            pendingOrder.assignId(nextId());
-            return pendingOrder;
-        }
-
-        private long nextId() {
-            return atomicLong.getAndIncrement();
-        }
-    }
 }
