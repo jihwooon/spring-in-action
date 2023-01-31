@@ -8,4 +8,12 @@ public class PendingOrder {
     private long productId;
     private int quantity;
 
+    public PendingOrder(final long productId, final int quantity) {
+        this.productId = productId;
+        this.quantity = quantity;
+    }
+
+    public void assignId(final long nextId) {
+        this.id = nextId;
+    }
 }

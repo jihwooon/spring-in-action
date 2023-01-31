@@ -32,4 +32,17 @@ public class CreateOrderServiceTest {
         }
     }
 
+    private static class PendingOrderRepositoryMemoryImpl implements PendingOrderRepository {
+        private final AtomicLong atomicLong = new AtomicLong(1);
+
+        @Override
+        public PendingOrder save(final PendingOrder pendingOrder) {
+            pendingOrder.assignId(nextId());
+            return pendingOrder;
+        }
+
+        private long nextId() {
+            return atomicLong.getAndIncrement();
+        }
+    }
 }
