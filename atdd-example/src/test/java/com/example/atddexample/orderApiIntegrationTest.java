@@ -26,7 +26,7 @@ public class orderApiIntegrationTest extends Exception {
     @Test
     void result() throws Exception {
         // Arrange
-        long productId = 1;
+        long productId = 1L;
         int quantity = 2;
         PendingOrderRequest request = PendingOrderRequest.of(productId, quantity);
 
