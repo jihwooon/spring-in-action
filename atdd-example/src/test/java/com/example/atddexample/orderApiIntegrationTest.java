@@ -2,7 +2,6 @@ package com.example.atddexample;
 
 import com.example.atddexample.application.PendingOrderRequest;
 import com.example.atddexample.application.PendingOrderResponse;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,11 +16,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class orderApiIntegrationTest extends Exception {
+public class OrderApiIntegrationTest extends Exception {
     @Autowired
     private MockMvc mockMvc;
+
     @Autowired
-    private ObjectMapper objectMapper;
+    private ProjectConfig projectConfig;
 
     @Test
     void result() throws Exception {
@@ -33,12 +33,12 @@ public class orderApiIntegrationTest extends Exception {
         // Act
         MockHttpServletResponse response = mockMvc.perform(post("/orders/pendingOrder")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+                        .content(projectConfig.toJson(request)))
                 .andReturn().getResponse();
 
         // Assert
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        PendingOrderResponse pendingOrderResponse = objectMapper.readValue(response.getContentAsString(), PendingOrderResponse.class);
+        PendingOrderResponse pendingOrderResponse = projectConfig.getValue(response.getContentAsString(), PendingOrderResponse.class);
         assertThat(pendingOrderResponse.getId()).isGreaterThan(0);
     }
 }
