@@ -1,0 +1,29 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.12'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.example.spring'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// mysql
+	implementation 'mysql:mysql-connector-java:8.0.33'
+
+	// mariadb
+	runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
