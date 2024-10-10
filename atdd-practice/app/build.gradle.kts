@@ -21,6 +21,13 @@ dependencies {
     // Use Spring Boot Devtools
     implementation("org.springframework.boot:spring-boot-devtools:3.3.4")
 
+    // Use Lombok
+    compileOnly("org.projectlombok:lombok:1.18.34")
+
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.0")
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    implementation("com.fasterxml.jackson.core:jackson-core:2.18.0")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
