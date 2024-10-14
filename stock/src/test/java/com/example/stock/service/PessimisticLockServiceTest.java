@@ -14,10 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class StockServiceTest {
+class PessimisticLockServiceTest {
 
     @Autowired
-    private StockService stockService;
+    private PessimisticLockService stockService;
 
     @Autowired
     private StockRepository stockRepository;
@@ -34,7 +34,7 @@ class StockServiceTest {
 
     @Test
     public void 재고감소() {
-        stockService.decrease(1L, 5L);
+        stockService.descrese(1L, 5L);
 
         Stock stock = stockRepository.findById(1L).orElseThrow();
 
@@ -51,7 +51,7 @@ class StockServiceTest {
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(() -> {
                 try {
-                    stockService.decrease(1L, 1L);
+                    stockService.descrese(1L, 1L);
                 } finally {
                     countDownLatch.countDown();
                 }
@@ -64,4 +64,5 @@ class StockServiceTest {
 
         assertThat(stock.getQuantity()).isEqualTo(0);
     }
+
 }
