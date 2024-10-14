@@ -1,9 +1,8 @@
-package com.example.stock.service;
+package com.example.stock.facade;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.stock.domain.Stock;
-import com.example.stock.facade.OptimisticLockStockFacade;
 import com.example.stock.repository.StockRepository;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -15,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class OptimisticLockServiceTest {
+class OptimisticLockStockFacadeTest {
 
     @Autowired
     private OptimisticLockStockFacade stockService;
@@ -44,7 +43,7 @@ class OptimisticLockServiceTest {
 
     @Test
     public void 동시에_100개_요청() throws InterruptedException {
-        int threadCount = 50;
+        int threadCount = 100;
 
         ExecutorService executorService = Executors.newFixedThreadPool(32);
         CountDownLatch countDownLatch = new CountDownLatch(threadCount);
@@ -67,4 +66,5 @@ class OptimisticLockServiceTest {
 
         assertThat(stock.getQuantity()).isEqualTo(0);
     }
+
 }
