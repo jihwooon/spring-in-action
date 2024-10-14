@@ -6,22 +6,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class OptimisticLockService {
+public class OptimisticLockStockService {
 
     private final StockRepository stockRepository;
 
-    public OptimisticLockService(StockRepository stockRepository) {
+    public OptimisticLockStockService(StockRepository stockRepository) {
         this.stockRepository = stockRepository;
     }
 
     @Transactional
     public void decrease(Long id, Long quantity) {
         Stock stock = stockRepository.findByIdWithOptimisticLock(id);
-        // 재고 감소
         stock.decrease(quantity);
-        // 갱신된 값 저장
 
         stockRepository.saveAndFlush(stock);
     }
-
 }
