@@ -12,7 +12,7 @@ public class ThreadPool implements Executor {
     };
     private final BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
     private final Thread[] threads;
-    private final AtomicBoolean stated = new AtomicBoolean();
+    private final AtomicBoolean started = new AtomicBoolean();
     private final AtomicBoolean shutdown = new AtomicBoolean();
 
     public ThreadPool(int numThreads) {
@@ -43,7 +43,7 @@ public class ThreadPool implements Executor {
 
     @Override
     public void execute(Runnable command) {
-        if (stated.compareAndSet(false, true)) {
+        if (started.compareAndSet(false, true)) {
             for (Thread thread : threads) {
                 thread.start();
             }
@@ -74,7 +74,7 @@ public class ThreadPool implements Executor {
                     thread.join();
                 } catch (InterruptedException e) {
                 }
-            } while (!thread.isAlive());
+            } while (thread.isAlive());
         }
     }
 }
