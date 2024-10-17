@@ -1,8 +1,5 @@
 package com.example.demo.함수형스타일;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Melon {
 
     private final String type;

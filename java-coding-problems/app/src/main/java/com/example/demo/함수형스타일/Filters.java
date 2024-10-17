@@ -43,4 +43,30 @@ public class Filters {
 
         return result;
     }
+
+    public static List<Melon> filterMelon(List<Melon> melons,
+            MelonPredicate melonPredicate) {
+
+        ArrayList<Melon> result = new ArrayList<>();
+
+        for (Melon melon : melons) {
+            if (melon != null && melonPredicate.calculate(melon)) {
+                result.add(melon);
+            }
+        }
+
+        return result;
+    }
+
+    public static <T> List<T> filter(List<T> list, Predicate<T> predicate) {
+        List<T> result = new ArrayList<>();
+
+        for (T t : list) {
+            if (t != null && predicate.calculate(t)) {
+                result.add(t);
+            }
+        }
+
+        return result;
+    }
 }
