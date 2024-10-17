@@ -2,6 +2,7 @@ package com.example.demo.함수형디자인패턴;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.example.demo.함수형디자인패턴.전략패턴.Remover;
 import org.junit.jupiter.api.Test;
 
 class RemoverTest {
