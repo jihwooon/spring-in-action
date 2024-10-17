@@ -13,6 +13,9 @@ dependencies {
     testImplementation(libs.junit.jupiter)
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    // AssertJ
+    testImplementation("org.assertj:assertj-core:3.26.3")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
