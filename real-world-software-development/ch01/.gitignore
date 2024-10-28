@@ -30,4 +30,4 @@ build/
 # IntelliJ
 .idea/
 
-./gradle
+.gradle
