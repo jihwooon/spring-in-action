@@ -42,4 +42,22 @@ public class BankStatementProcessor {
                 .mapToDouble(BankTransaction::amount)
                 .sum();
     }
+
+    public double calculateMaxInMonth(final Month month) {
+        return bankTransactions.stream()
+                .filter(bankTransaction -> bankTransaction.date().getMonth()
+                        == month)
+                .mapToDouble(BankTransaction::amount)
+                .max()
+                .orElse(0);
+    }
+
+    public double calculateMinInMonth(final Month month) {
+        return bankTransactions.stream()
+                .filter(bankTransaction -> bankTransaction.date().getMonth()
+                        == month)
+                .mapToDouble(BankTransaction::amount)
+                .min()
+                .orElse(0);
+    }
 }

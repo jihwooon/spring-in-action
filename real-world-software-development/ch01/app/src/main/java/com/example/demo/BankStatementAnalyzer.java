@@ -9,37 +9,46 @@ import java.util.List;
 
 public class BankStatementAnalyzer {
 
-    public void analyze(final String fileResource, final BankStatementParser bankStatementParser)
-        throws IOException {
+    public void analyze(final String fileResource,
+            final BankStatementParser bankStatementParser)
+            throws IOException {
 
         final Path path = Paths.get(fileResource);
         final List<String> lines = Files.readAllLines(path);
 
-        List<BankTransaction> bankTransactions = bankStatementParser.parserLinesFrom(lines);
+        List<BankTransaction> bankTransactions = bankStatementParser.parserLinesFrom(
+                lines);
 
         BankStatementProcessor bankStatementProcessor = new BankStatementProcessor(
-            bankTransactions);
+                bankTransactions);
 
         collectSummary(bankStatementProcessor, bankTransactions);
     }
 
     private static void collectSummary(
-        BankStatementProcessor bankStatementProcessor,
-        List<BankTransaction> bankTransactions) {
+            BankStatementProcessor bankStatementProcessor,
+            List<BankTransaction> bankTransactions) {
 
         System.out.println(
-            "total : " + bankStatementProcessor.calculateTotalAmount());
+                "total : " + bankStatementProcessor.calculateTotalAmount());
 
         System.out.println("total for transactions in January is "
-            + bankStatementProcessor.selectInMonth(
-            bankTransactions, Month.JANUARY));
+                + bankStatementProcessor.selectInMonth(
+                bankTransactions, Month.JANUARY));
 
         System.out.println(
-            "total for transactions in February is "
-                + bankStatementProcessor.calculateTotalInMonth(
-                Month.FEBRUARY));
+                "total for transactions in February is "
+                        + bankStatementProcessor.calculateTotalInMonth(
+                        Month.FEBRUARY));
 
         System.out.println("The total salary received is "
-            + bankStatementProcessor.calculateTotalForCategory("Salary"));
+                + bankStatementProcessor.calculateTotalForCategory("Salary"));
+
+        System.out.println("max for transactions in February is "
+                + bankStatementProcessor.calculateMaxInMonth(Month.FEBRUARY));
+
+        System.out.println("min for transactions in February is "
+                + bankStatementProcessor.calculateMinInMonth(
+                Month.FEBRUARY));
     }
 }
