@@ -60,4 +60,30 @@ public class BankStatementProcessor {
                 .min()
                 .orElse(0);
     }
+
+    public List<BankTransaction> findTransactionsGreaterThanEqual(
+            final int amount) {
+        return bankTransactions.stream()
+                .filter(bankTransaction -> bankTransaction.amount() >= amount)
+                .toList();
+    }
+
+    public List<BankTransaction> findTransactionsInMonth(final Month month) {
+        return bankTransactions.stream()
+                .filter(bankTransaction ->
+                        bankTransaction.date().getMonth() == month)
+                .toList();
+    }
+
+
+    public List<BankTransaction> findTransactionsInMonthAndGreater(
+            final Month month,
+            final int amount) {
+        return bankTransactions.stream()
+                .filter(bankTransaction ->
+                        bankTransaction.date().getMonth() == month &&
+                                bankTransaction.amount() >= amount
+                )
+                .toList();
+    }
 }
