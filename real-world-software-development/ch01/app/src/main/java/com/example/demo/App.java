@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class App {
@@ -14,9 +17,15 @@ public class App {
         final Path path = Paths.get(RESOURCES);
         final List<String> lines = Files.readAllLines(path);
 
+        DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern(
+                "dd-MM-yyyy");
+
         double total = lines.stream()
-                .map(line -> line.split(",")[1])
-                .mapToDouble(Double::parseDouble)
+                .map(line -> line.split(","))
+                .filter(columns ->
+                        LocalDate.parse(columns[0], DATE_PATTERN).getMonth()
+                                == Month.JANUARY)
+                .mapToDouble(columns -> Double.parseDouble(columns[1]))
                 .sum();
 
         System.out.println(total);
