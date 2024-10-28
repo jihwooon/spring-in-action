@@ -14,8 +14,8 @@ public class BankStatementCSVParser implements BankStatementParser {
         final String[] columns = line.split(",");
 
         final LocalDate date = LocalDate.parse(columns[0], DATE_PATTERN);
-        double amount = Double.parseDouble(columns[1]);
-        String description = columns[2];
+        final double amount = Double.parseDouble(columns[1]);
+        final String description = columns[2];
 
         return new BankTransaction(date, amount, description);
     }
