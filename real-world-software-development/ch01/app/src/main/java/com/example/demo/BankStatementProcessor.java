@@ -2,7 +2,6 @@ package com.example.demo;
 
 import java.time.Month;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class BankStatementProcessor {
 
@@ -25,7 +24,7 @@ public class BankStatementProcessor {
         return bankTransactions.stream()
                 .filter(bankTransaction -> bankTransaction.date().getMonth()
                         == month)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public double calculateTotalInMonth(final Month month) {
