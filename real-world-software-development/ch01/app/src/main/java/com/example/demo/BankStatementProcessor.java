@@ -27,4 +27,20 @@ public class BankStatementProcessor {
                         == month)
                 .collect(Collectors.toList());
     }
+
+    public double calculateTotalInMonth(final Month month) {
+        return bankTransactions.stream()
+                .filter(bankTransaction -> bankTransaction.date().getMonth()
+                        == month)
+                .mapToDouble(BankTransaction::amount)
+                .sum();
+    }
+
+    public double calculateTotalForCategory(final String category) {
+        return bankTransactions.stream()
+                .filter(bankTransaction -> bankTransaction.description()
+                        .equals(category))
+                .mapToDouble(BankTransaction::amount)
+                .sum();
+    }
 }

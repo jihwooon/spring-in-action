@@ -23,12 +23,26 @@ public class App {
         BankStatementProcessor bankStatementProcessor = new BankStatementProcessor(
                 bankTransactions);
 
-        double total = bankStatementProcessor.calculateTotalAmount();
+        collectSummary(bankStatementProcessor, bankTransactions);
+    }
 
-        System.out.println(total);
-        List<BankTransaction> bankTransactionsInMonth = bankStatementProcessor.selectInMonth(
-                bankTransactions, Month.JANUARY);
+    private static void collectSummary(
+            BankStatementProcessor bankStatementProcessor,
+            List<BankTransaction> bankTransactions) {
 
-        System.out.println(bankTransactionsInMonth);
+        System.out.println(
+                "total : " + bankStatementProcessor.calculateTotalAmount());
+
+        System.out.println("total for transactions in January is "
+                + bankStatementProcessor.selectInMonth(
+                bankTransactions, Month.JANUARY));
+
+        System.out.println(
+                "total for transactions in February is "
+                        + bankStatementProcessor.calculateTotalInMonth(
+                        Month.FEBRUARY));
+
+        System.out.println("The total salary received is "
+                + bankStatementProcessor.calculateTotalForCategory("Salary"));
     }
 }
