@@ -50,5 +50,16 @@ public class BankStatementAnalyzer {
         System.out.println("min for transactions in February is "
                 + bankStatementProcessor.calculateMinInMonth(
                 Month.FEBRUARY));
+
+        System.out.println(
+                "Find and print transactions that occurred in February "
+                        + bankStatementProcessor.findTransactions(
+                        new BankTransactionIsInFebruaryAndExpensive()));
+
+        System.out.println("transactions that are in February and expensive "
+                + bankStatementProcessor.findTransactions(
+                bankTransaction ->
+                        bankTransaction.date().getMonth() == Month.FEBRUARY
+                                && bankTransaction.amount() >= 1000));
     }
 }

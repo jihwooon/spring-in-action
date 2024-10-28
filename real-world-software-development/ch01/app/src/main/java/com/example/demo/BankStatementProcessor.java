@@ -75,7 +75,6 @@ public class BankStatementProcessor {
                 .toList();
     }
 
-
     public List<BankTransaction> findTransactionsInMonthAndGreater(
             final Month month,
             final int amount) {
@@ -84,6 +83,13 @@ public class BankStatementProcessor {
                         bankTransaction.date().getMonth() == month &&
                                 bankTransaction.amount() >= amount
                 )
+                .toList();
+    }
+
+    public List<BankTransaction> findTransactions(final BankTransactionFilter bankTransactionFilter) {
+        return bankTransactions.stream()
+                .filter(bankTransaction ->
+                        bankTransactionFilter.test(bankTransaction))
                 .toList();
     }
 }
