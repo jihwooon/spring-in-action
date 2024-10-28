@@ -26,4 +26,22 @@ class CheckNullTest {
 
         assertThat(checkNull.evenInteger(numbers)).isEqualTo(List.of(2, 4, 16));
     }
+
+    @Test
+    void checkSumIfNull() {
+        CheckNull checkNull = new CheckNull();
+
+        assertThatThrownBy(
+                () -> checkNull.sumIntegers(null)
+        ).hasMessage("List cannot be null");
+    }
+
+    @Test
+    void checkSumIfNotNull() {
+        List<Integer> numbers = Arrays.asList(1, 2, null, 4, null, 16, 7, null);
+
+        CheckNull checkNull = new CheckNull();
+
+        assertThat(checkNull.sumIntegers(numbers)).isEqualTo(30);
+    }
 }
