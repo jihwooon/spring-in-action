@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import java.time.Month;
 import java.util.List;
 
 public class BankStatementProcessor {
@@ -11,44 +10,13 @@ public class BankStatementProcessor {
         this.bankTransactions = bankTransactions;
     }
 
-    public double calculateTotalAmount() {
+    public double summarizeTransactions(
+            final BankTransactionSummarizer bankTransactionSummarizer) {
         return bankTransactions.stream()
-                .mapToDouble(BankTransaction::amount)
-                .sum();
-    }
-
-    public double calculateTotalInMonth(final Month month) {
-        return bankTransactions.stream()
-                .filter(bankTransaction -> bankTransaction.date().getMonth()
-                        == month)
-                .mapToDouble(BankTransaction::amount)
-                .sum();
-    }
-
-    public double calculateTotalForCategory(final String category) {
-        return bankTransactions.stream()
-                .filter(bankTransaction -> bankTransaction.description()
-                        .equals(category))
-                .mapToDouble(BankTransaction::amount)
-                .sum();
-    }
-
-    public double calculateMaxInMonth(final Month month) {
-        return bankTransactions.stream()
-                .filter(bankTransaction -> bankTransaction.date().getMonth()
-                        == month)
-                .mapToDouble(BankTransaction::amount)
-                .max()
-                .orElse(0);
-    }
-
-    public double calculateMinInMonth(final Month month) {
-        return bankTransactions.stream()
-                .filter(bankTransaction -> bankTransaction.date().getMonth()
-                        == month)
-                .mapToDouble(BankTransaction::amount)
-                .min()
-                .orElse(0);
+                .reduce(0.0,
+                        bankTransactionSummarizer::summarize,
+                        Double::sum
+                );
     }
 
     public List<BankTransaction> findTransactions(
@@ -57,5 +25,23 @@ public class BankStatementProcessor {
                 .filter(bankTransaction ->
                         bankTransactionFilter.test(bankTransaction))
                 .toList();
+    }
+
+    public double maxTransactions(
+            final BankTransactionSummarizer bankTransactionSummarizer) {
+        return bankTransactions.stream()
+                .reduce(0.0,
+                        bankTransactionSummarizer::summarize,
+                        Double::max
+                );
+    }
+
+    public double minTransactions(
+            final BankTransactionSummarizer bankTransactionSummarizer) {
+        return bankTransactions.stream()
+                .reduce(0.0,
+                        bankTransactionSummarizer::summarize,
+                        Double::min
+                );
     }
 }
