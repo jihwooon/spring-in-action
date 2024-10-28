@@ -13,13 +13,11 @@ public class App {
     public static void main(final String[] args) throws IOException {
         final Path path = Paths.get(RESOURCES);
         final List<String> lines = Files.readAllLines(path);
-        double total = 0d;
 
-        for (final String line : lines) {
-            final String[] columns = line.split(",");
-            double amount = Double.parseDouble(columns[1]);
-            total += amount;
-        }
+        double total = lines.stream()
+                .map(line -> line.split(",")[1])
+                .mapToDouble(Double::parseDouble)
+                .sum();
 
         System.out.println(total);
     }
