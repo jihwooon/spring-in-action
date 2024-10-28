@@ -22,19 +22,14 @@ public class BankStatementAnalyzer {
         BankStatementProcessor bankStatementProcessor = new BankStatementProcessor(
                 bankTransactions);
 
-        collectSummary(bankStatementProcessor, bankTransactions);
+        collectSummary(bankStatementProcessor);
     }
 
     private static void collectSummary(
-            BankStatementProcessor bankStatementProcessor,
-            List<BankTransaction> bankTransactions) {
+            BankStatementProcessor bankStatementProcessor) {
 
         System.out.println(
                 "total : " + bankStatementProcessor.calculateTotalAmount());
-
-        System.out.println("total for transactions in January is "
-                + bankStatementProcessor.selectInMonth(
-                bankTransactions, Month.JANUARY));
 
         System.out.println(
                 "total for transactions in February is "
@@ -61,5 +56,19 @@ public class BankStatementAnalyzer {
                 bankTransaction ->
                         bankTransaction.date().getMonth() == Month.FEBRUARY
                                 && bankTransaction.amount() >= 1000));
+
+        System.out.println(
+                "Find and print transactions with an amount equal to "
+                        + bankStatementProcessor.findTransactions(
+                        bankTransaction -> bankTransaction.amount() >= 1000
+                ));
+
+        System.out.println(
+                "Find and print transactions that occurred in February "
+                        + bankStatementProcessor.findTransactions(
+                        bankTransaction ->
+                                bankTransaction.date().getMonth()
+                                        == Month.FEBRUARY)
+        );
     }
 }
