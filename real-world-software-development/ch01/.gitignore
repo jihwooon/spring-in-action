@@ -29,3 +29,5 @@ build/
 
 # IntelliJ
 .idea/
+
+./gradle

@@ -10,7 +10,7 @@ public class BankStatementCSVParser {
     private static final DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern(
             "dd-MM-yyyy");
 
-    private BankTransaction parserFromCSV(final String line) {
+    public BankTransaction parserFromCSV(final String line) {
         final String[] columns = line.split(",");
 
         final LocalDate date = LocalDate.parse(columns[0], DATE_PATTERN);
@@ -20,7 +20,7 @@ public class BankStatementCSVParser {
         return new BankTransaction(date, amount, description);
     }
 
-    private List<BankTransaction> parserLinesFromCSV(final List<String> lines) {
+    public List<BankTransaction> parserLinesFromCSV(final List<String> lines) {
         return lines.stream()
                 .map(this::parserFromCSV)
                 .collect(Collectors.toList());

@@ -14,20 +14,23 @@ public class App {
     private static final String RESOURCES = "/Users/jihwooon/Workspaces/spring-in-action/real-world-software-development/ch01/app/src/main/resources/file.csv";
 
     public static void main(final String[] args) throws IOException {
+        final BankStatementCSVParser bankStatementCSVParser = new BankStatementCSVParser();
+
         final Path path = Paths.get(RESOURCES);
         final List<String> lines = Files.readAllLines(path);
 
-        DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern(
-                "dd-MM-yyyy");
+        List<BankTransaction> bankTransactions = bankStatementCSVParser.parserLinesFromCSV(
+                lines);
 
-        double total = lines.stream()
-                .map(line -> line.split(","))
-                .filter(columns ->
-                        LocalDate.parse(columns[0], DATE_PATTERN).getMonth()
-                                == Month.JANUARY)
-                .mapToDouble(columns -> Double.parseDouble(columns[1]))
-                .sum();
+        BankStatementProcessor bankStatementProcessor = new BankStatementProcessor(
+                bankTransactions);
+
+        double total = bankStatementProcessor.calculateTotalAmount();
 
         System.out.println(total);
+        List<BankTransaction> bankTransactionsInMonth = bankStatementProcessor.selectInMonth(
+                bankTransactions, Month.JANUARY);
+
+        System.out.println(bankTransactionsInMonth);
     }
 }
