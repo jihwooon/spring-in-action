@@ -10,14 +10,14 @@ class BusinessRuleEngineTest {
 
     @Test
     void shouldPerformAnActionWithFacts() {
-        final Action mockAction = mock(Action.class);
+        Rule mockRule = mock(Rule.class);
         Facts mockFacts = mock(Facts.class);
         BusinessRuleEngine businessRuleEngine = new BusinessRuleEngine(mockFacts);
 
-        businessRuleEngine.addAction(mockAction);
+        businessRuleEngine.addRule(mockRule);
         businessRuleEngine.run();
 
-        verify(mockAction).execute(mockFacts);
+        verify(mockRule).perform(mockFacts);
     }
 
     @Test
@@ -28,7 +28,7 @@ class BusinessRuleEngineTest {
 
         BusinessRuleEngine businessRuleEngine = new BusinessRuleEngine(env);
 
-        businessRuleEngine.addAction(facts -> {
+        businessRuleEngine.addRule(facts -> {
             final String markName = facts.getFacts("Mark");
             if ("CEO".equals(markName)) {
                 var name = facts.getFacts("name");
@@ -49,7 +49,7 @@ class BusinessRuleEngineTest {
 
         BusinessRuleEngine businessRuleEngine = new BusinessRuleEngine(env);
 
-        businessRuleEngine.addAction(facts -> {
+        businessRuleEngine.addRule(facts -> {
             Stage dealStage = Stage.valueOf(facts.getFacts("stage"));
             double amount = Double.parseDouble(facts.getFacts("amount"));
 
