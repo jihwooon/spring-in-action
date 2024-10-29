@@ -30,7 +30,8 @@ class BusinessRuleEngineTest {
         businessRuleEngine.addAction(facts -> {
             final String markName = facts.getFacts("Mark");
             if ("CEO".equals(markName)) {
-                facts.getFacts("name");
+                var name = facts.getFacts("name");
+                System.out.println("Relevant customer: " + name);
             }
         });
 
