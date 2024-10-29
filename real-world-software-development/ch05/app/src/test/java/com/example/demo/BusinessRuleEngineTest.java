@@ -9,34 +9,32 @@ import org.junit.jupiter.api.Test;
 class BusinessRuleEngineTest {
 
     @Test
-    void shouldHaveNoRulesInitially() {
-        BusinessRuleEngine businessRuleEngine = new BusinessRuleEngine();
-
-        assertThat(businessRuleEngine.count()).isZero();
-    }
-
-    @Test
-    void shouldAddTwoActions() {
-        BusinessRuleEngine businessRuleEngine = new BusinessRuleEngine();
-
-        businessRuleEngine.addAction(() -> {
-        });
-        businessRuleEngine.addAction(() -> {
-        });
-
-        assertThat(businessRuleEngine.count()).isEqualTo(2);
-
-    }
-
-    @Test
-    void shouldExecuteOneAction() {
-        final BusinessRuleEngine businessRuleEngine = new BusinessRuleEngine();
+    void shouldPerformAnActionWithFacts() {
         final Action mockAction = mock(Action.class);
+        Facts mockFacts = mock(Facts.class);
+        BusinessRuleEngine businessRuleEngine = new BusinessRuleEngine(mockFacts);
 
         businessRuleEngine.addAction(mockAction);
         businessRuleEngine.run();
 
-        verify(mockAction).execute();
+        verify(mockAction).execute(mockFacts);
+    }
+
+    @Test
+    void shouldAddActionWithFacts() {
+        var env = new Facts();
+        env.addFact("Mark", "CEO");
+
+        BusinessRuleEngine businessRuleEngine = new BusinessRuleEngine(env);
+
+        businessRuleEngine.addAction(facts -> {
+            final String markName = facts.getFacts("Mark");
+            if ("CEO".equals(markName)) {
+                facts.getFacts("name");
+            }
+        });
+
+        businessRuleEngine.run();
 
         assertThat(businessRuleEngine.count()).isEqualTo(1);
     }
