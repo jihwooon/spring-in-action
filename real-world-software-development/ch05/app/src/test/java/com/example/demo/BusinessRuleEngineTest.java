@@ -24,6 +24,7 @@ class BusinessRuleEngineTest {
     void shouldAddActionWithFacts() {
         var env = new Facts();
         env.addFact("Mark", "CEO");
+        env.addFact("name", "Bob");
 
         BusinessRuleEngine businessRuleEngine = new BusinessRuleEngine(env);
 
@@ -41,7 +42,7 @@ class BusinessRuleEngineTest {
     }
 
     @Test
-    void shouldAddActionWith() {
+    void shouldCalculateTotalActionWith() {
         var env = new Facts();
         env.addFact("stage", "LEAD");
         env.addFact("amount", "15");
