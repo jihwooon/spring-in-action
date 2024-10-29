@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -47,6 +48,26 @@ class InspectorTest {
         };
 
         Rule rule = new DefaultRule(condition, action);
+
+        rule.perform(mockFacts);
+
+        assertThat(mockFacts.getFacts("jobTitle")).isEqualTo("CEO");
+    }
+
+    @Test
+    void name() {
+        Facts mockFacts = new Facts();
+        mockFacts.addFact("jobTitle", "CEO");
+
+        Condition condition = (Facts facts) -> "CEO".equals(
+                facts.getFacts("jobTitle"));
+
+        Action action = (Facts facts) -> {
+            var name = facts.getFacts("name");
+            System.out.println(name);
+        };
+
+        Rule rule = RuleBuilder.when(condition).then(action);
 
         rule.perform(mockFacts);
 
