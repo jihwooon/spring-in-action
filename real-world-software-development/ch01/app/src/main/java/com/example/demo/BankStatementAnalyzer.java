@@ -29,42 +29,18 @@ public class BankStatementAnalyzer {
             BankStatementProcessor bankStatementProcessor) {
 
         System.out.println(
-                "total : " + bankStatementProcessor.summarizeTransactions(
-                        (acc, bankTransaction) -> bankTransaction.amount()
-                                + acc)
+                "total : " + bankStatementProcessor.calculateTotalAmount()
         );
 
         System.out.println(
                 "total for transactions in February is "
-                        + bankStatementProcessor.summarizeTransactions(
-                        ((accumulator, bankTransaction) ->
-                                bankTransaction.date().getMonth()
-                                        == Month.FEBRUARY ? accumulator
-                                        + bankTransaction.amount() : accumulator
-                        )));
+                        + bankStatementProcessor.calculateTotalAmountInMonth(
+                        Month.FEBRUARY));
 
         System.out.println("The total salary received is "
-                + bankStatementProcessor.summarizeTransactions(
-                ((accumulator, bankTransaction) ->
-                        bankTransaction.description().equals("Salary") ?
-                                accumulator
-                                        + bankTransaction.amount() : accumulator
-                ))
+                + bankStatementProcessor.calculateTotalAmountByDescription(
+                "Salary")
         );
-
-        System.out.println("max for transactions in February is "
-                + bankStatementProcessor.maxTransactions(
-                ((accumulator, bankTransaction) ->
-                        bankTransaction.date().getMonth() == Month.FEBRUARY
-                                ? Math.max(accumulator,
-                                bankTransaction.amount()) : accumulator)));
-
-        System.out.println("min for transactions in February is "
-                + bankStatementProcessor.minTransactions(
-                (accumulator, bankTransaction) ->
-                        bankTransaction.date().getMonth() == Month.FEBRUARY
-                                ? Math.min(accumulator,
-                                bankTransaction.amount()) : accumulator));
 
         System.out.println(
                 "Find and print transactions that occurred in February "
@@ -72,23 +48,26 @@ public class BankStatementAnalyzer {
                         new BankTransactionIsInFebruaryAndExpensive()));
 
         System.out.println("transactions that are in February and expensive "
-                + bankStatementProcessor.findTransactions(
-                bankTransaction ->
-                        bankTransaction.date().getMonth() == Month.FEBRUARY
-                                && bankTransaction.amount() >= 1000));
+                + bankStatementProcessor.findTransactionInMonthAndGreaterThanEqual(
+                Month.FEBRUARY, 1000));
 
         System.out.println(
                 "Find and print transactions with an amount equal to "
-                        + bankStatementProcessor.findTransactions(
-                        bankTransaction -> bankTransaction.amount() >= 1000
-                ));
+                        + bankStatementProcessor.findTransactionsGreaterThanEqual(
+                        1000));
 
         System.out.println(
                 "Find and print transactions that occurred in February "
-                        + bankStatementProcessor.findTransactions(
-                        bankTransaction ->
-                                bankTransaction.date().getMonth()
-                                        == Month.FEBRUARY)
+                        + bankStatementProcessor.findTransactionsInMonthEqual(
+                        Month.FEBRUARY)
         );
+
+        System.out.println("max for transactions in February is "
+                + bankStatementProcessor.maxTransactionsInMonth(
+                Month.FEBRUARY));
+
+        System.out.println("min for transactions in February is "
+                + bankStatementProcessor.minTransactionsInMonth(
+                Month.FEBRUARY));
     }
 }
