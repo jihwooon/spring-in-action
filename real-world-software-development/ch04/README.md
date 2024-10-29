@@ -1,1 +1,0 @@
-# Wild Backend Calculator application
