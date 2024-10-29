@@ -10,7 +10,7 @@ class BusinessRuleEngineTest {
     void shouldHaveNoRulesInitially() {
         BusinessRuleEngine businessRuleEngine = new BusinessRuleEngine();
 
-        assertThat(businessRuleEngine.count()).isEqualTo(0);
+        assertThat(businessRuleEngine.count()).isZero();
     }
 
     @Test
