@@ -12,34 +12,98 @@ public class BankStatementProcessor {
     }
 
     public double calculateTotalAmount() {
-        return bankTransactions.stream()
-                .mapToDouble(BankTransaction::amount)
-                .sum();
+        return summarizeTransactions(
+                (acc, bankTransaction) -> bankTransaction.amount()
+                        + acc);
     }
 
-    public List<BankTransaction> selectInMonth(
-            final List<BankTransaction> bankTransactions, final
-    Month month) {
+    public double calculateTotalAmountInMonth(Month month) {
+        return summarizeTransactions(
+                ((accumulator, bankTransaction) ->
+                        bankTransaction.date().getMonth()
+                                == month ? accumulator
+                                + bankTransaction.amount() : accumulator
+                ));
+    }
 
+    public double calculateTotalAmountByDescription(String description) {
+        return summarizeTransactions(
+                (accumulator, bankTransaction) ->
+                        bankTransaction.description().equals(description) ?
+                                accumulator
+                                        + bankTransaction.amount() : accumulator
+        );
+    }
+
+    public List<BankTransaction> findTransactionInMonthAndGreaterThanEqual(
+            Month month, int amount) {
+        return findTransactions(
+                bankTransaction ->
+                        bankTransaction.date().getMonth() == month
+                                && bankTransaction.amount() >= amount);
+    }
+
+    public List<BankTransaction> findTransactionsGreaterThanEqual(
+            final int amount) {
+        return findTransactions(
+                bankTransaction -> bankTransaction.amount() >= amount
+        );
+    }
+
+    public List<BankTransaction> findTransactionsInMonthEqual(
+            final Month month) {
+        return findTransactions(
+                bankTransaction ->
+                        bankTransaction.date().getMonth()
+                                == month);
+    }
+
+    public double maxTransactionsInMonth(Month month) {
+        return maxTransactions(((accumulator, bankTransaction) ->
+                bankTransaction.date().getMonth() == month
+                        ? Math.max(accumulator,
+                        bankTransaction.amount()) : accumulator));
+    }
+
+    public double minTransactionsInMonth(Month month) {
+        return minTransactions(
+                (accumulator, bankTransaction) ->
+                        bankTransaction.date().getMonth() == month
+                                ? Math.min(accumulator,
+                                bankTransaction.amount()) : accumulator);
+    }
+
+    public double summarizeTransactions(
+            final BankTransactionSummarizer bankTransactionSummarizer) {
         return bankTransactions.stream()
-                .filter(bankTransaction -> bankTransaction.date().getMonth()
-                        == month)
+                .reduce(0.0,
+                        bankTransactionSummarizer::summarize,
+                        Double::sum
+                );
+    }
+
+    public List<BankTransaction> findTransactions(
+            final BankTransactionFilter bankTransactionFilter) {
+        return bankTransactions.stream()
+                .filter(bankTransactionFilter::test)
                 .toList();
     }
 
-    public double calculateTotalInMonth(final Month month) {
+    public double maxTransactions(
+            final BankTransactionSummarizer bankTransactionSummarizer) {
         return bankTransactions.stream()
-                .filter(bankTransaction -> bankTransaction.date().getMonth()
-                        == month)
-                .mapToDouble(BankTransaction::amount)
-                .sum();
+                .reduce(0.0,
+                        bankTransactionSummarizer::summarize,
+                        Double::max
+                );
     }
 
-    public double calculateTotalForCategory(final String category) {
+    public double minTransactions(
+            final BankTransactionSummarizer bankTransactionSummarizer) {
         return bankTransactions.stream()
-                .filter(bankTransaction -> bankTransaction.description()
-                        .equals(category))
-                .mapToDouble(BankTransaction::amount)
-                .sum();
+                .reduce(0.0,
+                        bankTransactionSummarizer::summarize,
+                        Double::min
+                );
     }
 }
