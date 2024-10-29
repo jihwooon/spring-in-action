@@ -11,8 +11,8 @@ class InspectorTest {
     void inspectOneConditionEvaluateTestTrue() {
         Facts facts = new Facts();
         facts.addFact("jobTitle", "CEO");
-        ConditionalAction condition = new JobTitleCondition();
-        Inspector inspector = new Inspector(condition);
+        ConditionalAction jobTitleCondition = new JobTitleCondition();
+        Inspector inspector = new Inspector(jobTitleCondition);
 
         List<Report> inspect = inspector.inspect(facts);
 
@@ -31,5 +31,25 @@ class InspectorTest {
         public boolean evaluate(Facts facts) {
             return "CEO".equals(facts.getFacts("jobTitle"));
         }
+    }
+
+    @Test
+    void segregationInterfaceWith() {
+        Facts mockFacts = new Facts();
+        mockFacts.addFact("jobTitle", "CEO");
+
+        Condition condition = (Facts facts) -> "CEO".equals(
+                facts.getFacts("jobTitle"));
+
+        Action action = (Facts facts) -> {
+            var name = facts.getFacts("name");
+            System.out.println(name);
+        };
+
+        Rule rule = new DefaultRule(condition, action);
+
+        rule.perform(mockFacts);
+
+        assertThat(mockFacts.getFacts("jobTitle")).isEqualTo("CEO");
     }
 }
