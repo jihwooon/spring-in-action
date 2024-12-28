@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 @Qualifier("fixDisCount")
 public class FixDiscountPolicy implements DiscountPolicy {
 
-    private final int discountFixAmount = 1000;
+    private static final int DISCOUNT_FIX_AMOUNT = 1000;
 
     @Override
     public int discount(Member member, int price) {
         if (member.getGrade() == Grade.VIP) {
-            return discountFixAmount;
+            return DISCOUNT_FIX_AMOUNT;
         } else {
             return 0;
         }
